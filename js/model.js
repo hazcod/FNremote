@@ -1,12 +1,18 @@
 var Model = function () {
 
-	this.getDataOnline = function(input) {
+	this.getDataOnline = function(input, auth) {
 	// Get data and transform
 		result = false;
 		$.ajax({
 			async: false,
 			crossDomain: true,
-			url: input
+			url: input,
+
+			beforeSend: function(req) {
+				if (auth != false){
+					req.setRequestHeader('Authorization', auth);
+				}
+			}
 		})
 			.done(function (data){
 				if (!data) {
@@ -27,14 +33,22 @@ var Model = function () {
 					}
 				}
 			})
+
 			.error(function (request, status, error){
-				log('getData error failed : ' + input + ", " + status + ", " + error);
+				log('getData error failed! input: ' + input + ", status: " + status + ", error: " + error);
 			});
 		return result;
 	},
 
-	//Requirement: questions must be fetched at least once on first boot
 	this.getData = function (input, force){
+
+		var server = basename(input);
+		if (this.getLogin(server) != false){
+
+		} else {
+			log('Could not find login details for server: ' + server)
+			return false;
+		}
 
 	    var ttl = parseInt(this.getLocal('TTL_' + input.trim()));
 		log('TTL is ' + ttl + ' for ' + input);
@@ -82,13 +96,22 @@ var Model = function () {
 		}
 	},
 
+	this.getLogin = function(server) {
+		return this.getLocal('LOGIN_' + server);
+	},
+
+	this.setLogin = function(server, login, pass) {
+		var lbase = window.btoa(login + ':' + pass);
+		return this.putLocal('LOGIN_' + server, lbase);
+	}
+
 	this.getServers = function() {
 		return this.getLocal('servers');
-	}
+	},
 
 	this.getUsers = function(server) {
 		return this.getData(server + this.usersURL);
-	}
+	},
 
 	this.setupURLs = function () {
 		this.baseURL = '/api/v1.0/';

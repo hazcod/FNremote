@@ -20,6 +20,7 @@ var app = {
 	// Setup RegEx URLs of our routes
 		this.loginURL = /#login/;
 		this.dologinURL = /#servers/;
+		this.exitURL = /#exit/;
     },
 
     bindEvents: function() {
@@ -91,6 +92,7 @@ var app = {
     		} else {
     			hash = "";
     		}
+    		log('hash set to ' + hash);
     	}
 
     	if (hash.match(/#clearcache/)){
@@ -108,7 +110,7 @@ var app = {
 
 	    if (!app.loggedin){
 	    	log('user not logged in');
-	    	//check routes
+	    	var lv = new LoginView();
     	} else {
     		log('user logged in');
     		//check routes
