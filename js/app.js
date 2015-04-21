@@ -18,8 +18,9 @@ var app = {
 
     setupURLS: function() {
 	// Setup RegEx URLs of our routes
-		this.loginURL = /#login/;
-		this.dologinURL = /#servers/;
+		this.addURL = /#add/;
+		this.doAddURL = /#doadd/;
+		this.serversURL = /#servers/;
 		this.exitURL = /#exit/;
     },
 
@@ -84,36 +85,63 @@ var app = {
     route: function(eventt, input) {
     // route is called when a link is clicked
     	var hash = input;
-    	log(hash);
+    	log('hash: ' + hash);
 
     	if (!hash){
     		if (window.location.hash){
-    			hash = window.location.hash;
+				hash = window.location.hash;
     		} else {
-    			hash = "";
+    			hash = '';
     		}
     		log('hash set to ' + hash);
     	}
 
     	if (hash.match(/#clearcache/)){
+    		log('flushcache');
     		$.jStorage.flush();
-    		redirect('overview');
+    		goToScreen();
     	} else
 
 	    if (hash.match(app.exitURL)){
+	    	log('exit');
 	    	if(navigator.app){
         		navigator.app.exitApp();
 			} else if(navigator.device){
         		navigator.device.exitApp();
 			}
-	    } else
+		} else 
 
-	    if (!app.loggedin){
-	    	log('user not logged in');
-	    	var lv = new LoginView();
-    	} else {
-    		log('user logged in');
-    		//check routes
+		if (hash.match(app.doAddURL)){
+			log('doAddServer');
+			return new AddServerView({
+				'ip': document.getElementById('ip').value,
+				'user': document.getElementById('user').value,
+				'password': document.getElementById('password').value,
+			});
+	    } else 
+
+	    if (hash.match(app.addURL)) {
+	    	log('addserver');
+	    	var as = new AddServerView();
+	    } 
+	    else
+	    {
+	    	log('test');
+		    if (!app.model.getServers()){
+		    	// If we don't have any servers yet
+		    	log('addserverview');
+		    	var as = new AddServerView();
+		    } else {
+		    	if (!app.model.getDefaultServer()){
+		    		// If we don't have a default server
+		    		log('serversoverview');
+					var sv = new ServersOverview();
+		    	} else {
+		    		// If we do have a default server, go there
+		    		log('overview of default server');
+		    		var so = new Overview(app.model.getDefaultServer());
+		    	}
+		    }
 		}
     }
 

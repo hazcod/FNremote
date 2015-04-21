@@ -20,7 +20,6 @@ function render(template, args) {
     
     args["msgerror"] = error;
     args["msginfo"]  = info;
-    args["profile"]  = app.userProfile;
 
     if (!app.userProfile){
         renderPartial('guestmenu', {});
@@ -66,7 +65,11 @@ function renderPartial(name, args){
 
 function redirect(location){
     loading("show");
-    history.pushState("", document.title, window.location.pathname);    
+    try {
+        history.pushState("", document.title, window.location.pathname);
+    } catch (err) {
+        log('pushHistory failed: ' + err);
+    }    
     if (location.charAt(0) != '#'){
         location = '#' + location;
     }
@@ -92,11 +95,23 @@ function goToScreen() {
     if (window.location.hash){
         window.history.back();//edirect(window.location.hash.substring(1));
     } else {
-        redirect('overview');
+        redirect(app.serversURL);
     }
 }
 
 //---Network
 function basename(path) {
     return path.split(/[\\/]/).pop();
+}
+function checkIsIPV4(entry) {
+  var blocks = entry.split(".");
+  if(blocks.length === 4) {
+    return blocks.every(function(block) {
+      return parseInt(block,10) >=0 && parseInt(block,10) <= 255;
+    });
+  }
+  return false;
+}
+function ping(host) {
+    return (app.model.getDataOnline('https://' + host + '/static/images/ui/freenas-logo.png' != false));
 }

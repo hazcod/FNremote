@@ -9,6 +9,7 @@ var Model = function () {
 			url: input,
 
 			beforeSend: function(req) {
+				req.setRequestHeader('Content-Type', 'application/json');
 				if (auth != false){
 					req.setRequestHeader('Authorization', auth);
 				}
@@ -41,10 +42,10 @@ var Model = function () {
 	},
 
 	this.getData = function (input, force){
-
 		var server = basename(input);
-		if (this.getLogin(server) != false){
-
+		
+		if (this.getLogin(server)){
+			auth = this.getLogin(server);
 		} else {
 			log('Could not find login details for server: ' + server)
 			return false;
@@ -58,7 +59,7 @@ var Model = function () {
         if ((!ttl) || (isNaN(ttl)) || ttl <= now.getTime() || (force)){
 			log('TTL expired/not existant. Fetching online..');
 			//if it doesnt exist cached or TTL is more than a day old
-			var result = this.getDataOnline(input);
+			var result = this.getDataOnline(input, auth);
 
 			if (result){
 				log('Putting result in cache..');
@@ -100,9 +101,18 @@ var Model = function () {
 		return this.getLocal('LOGIN_' + server);
 	},
 
+	this.getAuthString = function(login, pass){
+		return window.btoa(login + ':' + pass);
+	}
+
 	this.setLogin = function(server, login, pass) {
-		var lbase = window.btoa(login + ':' + pass);
-		return this.putLocal('LOGIN_' + server, lbase);
+		if (!server.lastIndexOf('https', 0) === 0){
+			server = server.replace('http://','');
+			if (!server.lastIndexOf('https', 0) === 0){
+				server = 'https://' + server;
+			}
+		}
+		return this.putLocal('LOGIN_' + server, this.getAuthString(login, pass));
 	}
 
 	this.getServers = function() {
@@ -113,8 +123,14 @@ var Model = function () {
 		return this.getData(server + this.usersURL);
 	},
 
+	this.testAccess = function(server, login, pass) {
+		return this.getDataOnline(server + this.testURL, this.getAuthString(login, pass));
+	},
+
 	this.setupURLs = function () {
 		this.baseURL = '/api/v1.0/';
+
+		this.testURL = this.baseURL;
 		
 		this.usersURL = this.baseURL + 'account/users/';
 	},

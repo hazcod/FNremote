@@ -1,0 +1,33 @@
+<div data-role="page">
+    <!-- SLIDEMENU START -->
+    <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="push">
+        {{> guestmenu}}
+    </div>
+    <!-- SLIDEMENU STOP -->
+    <div data-role="header">
+        <a data-iconpos="notext" href="#panel" data-role="button" data-icon="flat-menu"></a>
+        <h1>FNremote</h1>
+    </div>
+
+    <div data-role="content" role="main">
+        <div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
+            <img class="scale-img" src="css/images/logo.png" alt="FNremote logo" />
+
+            <br>
+            {{> messages}}
+            <br>
+            
+            <input type="text" id="ip" placeholder="IP Address" class="required" required value="{{ip}}"/>
+            
+            <br>
+            
+            <input type="text" id="user" placeholder="Username" class="required" required disabled value="{{user}}"/>
+            <input type="password" id="password" placeholder="Password" class="required" required value="{{password}}"/>
+            
+            <br>
+            <br>
+            
+            <a id="addsbutton" data-icon="flat-new" class="ui-btn ui-btn-b ui-icon-flat-checkmark ui-btn-icon-left ui-shadow fullwidth">Add Server</a>
+        </div>
+    </div>
+</div>
