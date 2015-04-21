@@ -113,5 +113,5 @@ function checkIsIPV4(entry) {
   return false;
 }
 function ping(host) {
-    return (app.model.getDataOnline('https://' + host + '/static/images/ui/freenas-logo.png' != false));
+    return (app.model.getDataOnline('https://' + host + '/static/images/ui/freenas-logo.png') != false);
 }
