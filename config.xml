@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/ns/1.0"
+    id          = "com.hazcod.fnremote" 
+    version     = "1.0.0" >
+
+    <name>FNremote</name>
+
+    <description>
+        Remotely control your FreeNAS server!
+    </description>
+
+    <author email="hazcod@outlook.be">
+        Niels Hofmans
+    </author>
+    
+    <icon src="css/images/logo.png" />
+
+    <!-- plugins -->
+    <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="org.apache.cordova.file" />
+
+    <!-- cache data -->
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <!-- check network connection online/offline -->
+    <feature name="http://api.phonegap.com/1.0/network"/>
+
+    <content src="index.html" />
+    <access origin="*" />
+</widget>

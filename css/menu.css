@@ -1,0 +1,102 @@
+
+
+/* ---------------------------------------------------- */
+/*                        Content                       */
+/* ---------------------------------------------------- */
+
+ul.menu {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+#panel,
+#content-wrapper {
+	  float: left;
+	}
+#panel {
+ /* width: 75%; */
+  background: #353535;
+  line-height: 1;
+}
+.wrapmenu {
+  overflow: auto;
+}
+
+.wrapmenu h3 {
+    color: graytext;
+}
+
+#panel ul li {
+  clear: both;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+
+#panel ul li a,
+#panel a.current-account {
+  display: block;
+  font-size: 15px;
+  color: #d7d7d7;
+  padding: 8px;
+  background: #414141;
+  border-top: 1px solid #565656;
+  border-bottom: 1px solid #2a2a2a;
+  min-height: 30px;
+}
+#panel ul.accounts li a,
+#panel a.current-account {
+  min-height: 20px;
+}
+
+#panel ul li span {
+  margin-left: 5px;
+  padding-top: 5px;
+  display: inline-block;
+}
+
+#panel ul.accounts li a img,
+#panel a.current-account img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+#panel ul.accounts li a span,
+#panel a.current-account span {
+  display: inline-block;
+  padding-top: 0;
+  margin-left: 0;
+}
+
+#content-wrapper {
+  width: 100%;
+  float: left;
+  overflow: auto;
+  position: absolute;
+  background: #d0d4d8;
+}
+.open-menu #content-wrapper {
+  overflow: hidden;
+}
+
+
+/* ---------------------------------------------------- */
+/*                        Icons                         */
+/* ---------------------------------------------------- */
+.ico { background: url(../css/images/icons.png) no-repeat; }
+.ico-30 { width: 30px; height: 30px; }
+.ico .count { background-position: -281px -815px; width: 20px; height: 20px; position: absolute; font-size: 11px; text-align: center;
+  color: #d74141; font-weight: bold; padding: 2px 4px 0 0; }
+
+#menu { display: block; width: 44px; height: 30px; text-indent: -9999px; background-position: 0px -709px; }
+#menu li ui-btn { margin: 0 !important; }
+
+.i-news { background-position: 0 4px; }
+.i-messages { background-position: 0 -86px; }
+.i-groups { background-position: 0 -177px; }
+.i-photos { background-position: 0 -358px; }
+
+.i-settings { background-position: 0 -544px; }
+.i-logout { background-position: 0 -637px; }
+
+.i-white-add { background-position: 0 -774px; width: 47px; height: 32px; }
